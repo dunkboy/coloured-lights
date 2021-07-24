@@ -4,6 +4,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import api from './network/api'
+
+Vue.prototype.$api = api
 
 Vue.config.productionTip = false
 
