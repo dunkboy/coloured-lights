@@ -34,6 +34,10 @@ export function request (config) {
         if (res.data.code !== 200) {
           // 后台返回错误消息
           Message.error(res.data.msg)
+        } else {
+          if (res.data.data == null) {
+            Message.success('操作成功！')
+          }
         }
         return res.data
       } else {

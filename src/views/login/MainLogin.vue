@@ -1,12 +1,6 @@
 <template>
   <div id="mainLogin">
-    <login>
-      <label slot="loginName" for="loginName">登录名<input type="text" id="loginName"
-          v-model.trim="loginDTO.loginName" /></label>
-      <label slot="password" for="password">密码<input type="password" id="password"
-          v-model.trim="loginDTO.password" /></label>
-      <button slot="loginButton" type="button" @click="login">登录</button>
-    </login>
+    <login :loginForm="loginForm" :loginRules="loginRules" @submit="submit" @errHandle="errHandle"></login>
   </div>
 </template>
 
@@ -17,38 +11,59 @@ export default {
   components: {
     Login
   },
+  props: {},
   data () {
     return {
-      loginDTO: {
+      loginForm: {
         loginName: '',
         password: ''
+      },
+      loginRules: {
+        loginName: [{
+          required: true,
+          message: '用户名不能为空',
+          trigger: 'blur'
+        },
+        {
+          max: 20,
+          message: '用户名不能超过20个字符',
+          trigger: 'blur'
+        }
+        ],
+        password: [{
+          required: true,
+          message: '密码不能为空',
+          trigger: 'blur'
+        }]
       }
-
     }
   },
   methods: {
-    login () {
-      this.$api.account.login(this.loginDTO).then(res => {
+    submit () {
+      this.$api.account.login(this.loginForm).then(res => {
         if (res.code !== 200) {
           return
         }
         this.$store.state.token = res.data.token
         this.$store.state.userinfo = res.data.userinfo
       })
+    },
+    errHandle () {
+      this.$message.error('请重新输入！')
     }
   }
 
 }
 </script>
 
-<style>
+<style scoped>
   #mainLogin {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    width: 800px;
-    height: 800px;
-    background-color: red;
+    height: 100vh;
+    background-image: url(~assets/img/login-background.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 </style>
