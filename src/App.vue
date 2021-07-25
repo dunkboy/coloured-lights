@@ -1,20 +1,16 @@
 <template>
   <div id="app">
-    <login></login>
+    <main-login></main-login>
   </div>
 </template>
 
 <script>
-
-import Login from 'views/login/Login'
+import MainLogin from 'views/login/MainLogin'
 
 export default {
   name: 'app',
   components: {
-    Login
-  },
-  methods: {
-
+    MainLogin
   }
 }
 </script>
