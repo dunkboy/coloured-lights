@@ -65,5 +65,6 @@ export default {
     background-image: url(~assets/img/login-background.jpg);
     background-size: contain;
     background-repeat: no-repeat;
+    background-position:top;
   }
 </style>
