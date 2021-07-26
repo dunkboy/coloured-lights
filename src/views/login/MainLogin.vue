@@ -63,8 +63,9 @@ export default {
     align-items: center;
     height: 100vh;
     background-image: url(~assets/img/login-background.jpg);
-    background-size: contain;
+    /* background-size: contain; */
+    background-size: cover;
     background-repeat: no-repeat;
-    background-position:top;
+    background-position:center;
   }
 </style>

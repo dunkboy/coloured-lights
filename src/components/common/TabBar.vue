@@ -1,5 +1,7 @@
 <template>
-  <div>sss</div>
+  <div id="tabBar">
+    <img src="" alt="LOGO">
+  </div>
 </template>
 
 <script>

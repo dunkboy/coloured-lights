@@ -1,20 +1,31 @@
 <template>
   <div id="app">
-    <main-login></main-login>
+    <router-view name="MainLogin"></router-view>
+    <el-container>
+      <el-header style="height: 60px"></el-header>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+    </el-container>
   </div>
 </template>
 
 <script>
-import MainLogin from 'views/login/MainLogin'
-
 export default {
   name: 'app',
-  components: {
-    MainLogin
-  }
+  components: {}
 }
 </script>
 
-<style>
+<style scoped>
   @import "assets/css/base.css";
+
+  .el-header {
+    background-color: #42B983;
+  }
+
+  .el-main {
+    height: calc(100vh - 60px);
+    background-color: #343434;
+  }
 </style>
