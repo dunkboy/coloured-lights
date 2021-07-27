@@ -3,28 +3,61 @@
     <el-col :span="2" class="item_logo">
       <img src="~assets/img/logo.jpeg" alt="加载失败" width="100px" height="80%" />
     </el-col>
-    <el-col :span="4" :offset="6" class="item_tab">
-      <el-tabs type="border-card" value="first" @tab-click="handleClick" style="width: 200px;">
-        <el-tab-pane label="首页" name="first"></el-tab-pane>
-        <el-tab-pane label="资源库" name="second"></el-tab-pane>
-        <!-- <el-tab-pane name="fourth">
-            <el-dropdown trigger="click">
-                  <span class="el-dropdown-link">
-                    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-plus">黄金糕</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-plus">狮子头</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-plus-outline">螺蛳粉</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-check">双皮奶</el-dropdown-item>
-                    <el-dropdown-item icon="el-icon-circle-check">蚵仔煎</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-          </el-tab-pane> -->
-      </el-tabs>
+    <el-col :span="3" :offset="6">
+      <el-row class="item_tab">
+        <el-col :span="12" :offset="4">
+          <el-tabs type="border-card" value="first" @tab-click="handleClick" style="width: 100px;">
+            <el-tab-pane label="首页" name="first"></el-tab-pane>
+            <!-- <el-tab-pane label="资源库" name="second"></el-tab-pane> -->
+          </el-tabs>
+        </el-col>
+        <el-col :span="12">
+            <el-dropdown>
+              <el-button type="primary">
+                资源库<i class="el-icon-arrow-down el-icon--right"></i>
+              </el-button>
+              <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>黄金糕</el-dropdown-item>
+                  <el-dropdown-item>狮子头</el-dropdown-item>
+                  <el-dropdown-item>螺蛳粉</el-dropdown-item>
+                  <el-dropdown-item>双皮奶</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+        </el-col>
+      </el-row>
+
     </el-col>
-    <el-col :span="2" class="item_dropdown"></el-col>
-    <el-col :span="2" class="item_profile"></el-col>
+    <el-col :span="2" offset="11" class="item_profile">
+      <div class="profile"></div>
+    </el-col>
   </el-row>
 </template>
 
@@ -94,4 +127,52 @@ export default {
   .el-tabs>>>.el-tabs__content {
     padding: 0;
   }
+
+.item_tab{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .el-dropdown>>>.el-button {
+    font-size:22px;
+  }
+  .el-dropdown>>>.el-button--primary {
+    background-color:darkred;
+    border-color:darkred;
+  }
+
+.el-dropdown-menu {
+    position: absolute;
+    width: 800px;
+    height: 200px;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: -400px;
+    background-color:transparent;
+    border: 1px solid #6a6a6a;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px 0 rgba(107, 107, 107, 0.1);
+}
+
+.el-dropdown-menu li {
+   float: left;
+   color: white
+}
+
+.el-dropdown-menu li:hover {
+   color: black;
+   background-color: darkred;
+}
+
+  .profile {
+    width: 100%;
+    height: 100%;
+    background-color: #409EFF;
+  }
+
 </style>
