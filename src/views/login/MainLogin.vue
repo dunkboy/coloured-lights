@@ -46,6 +46,7 @@ export default {
         }
         this.$store.state.token = res.data.token
         this.$store.state.userinfo = res.data.userinfo
+        this.$router.replace({ path: '/home' })
       })
     },
     errHandle () {

@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <router-view name="MainLogin"></router-view>
-    <el-container>
-      <el-header style="height: 60px"></el-header>
+    <router-view name="MainLogin" v-if="$route.path.indexOf('/login') === 0"></router-view>
+    <el-container v-else>
+      <el-header style="height: 60px">
+        <tab-bar></tab-bar>
+      </el-header>
       <el-main>
         <router-view></router-view>
       </el-main>
@@ -11,9 +13,13 @@
 </template>
 
 <script>
+import TabBar from 'components/common/TabBar.vue'
+
 export default {
   name: 'app',
-  components: {}
+  components: {
+    TabBar
+  }
 }
 </script>
 
@@ -21,7 +27,9 @@ export default {
   @import "assets/css/base.css";
 
   .el-header {
-    background-color: #42B983;
+    width: 100%;
+    padding: 0;
+    overflow:hidden
   }
 
   .el-main {

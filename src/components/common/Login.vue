@@ -29,6 +29,9 @@
 export default {
   name: 'Login',
   components: {},
+  created () {
+    this.keyupSubmit()
+  },
   props: {
     loginForm: {
       type: Object,
@@ -40,6 +43,14 @@ export default {
     }
   },
   methods: {
+    keyupSubmit () {
+      document.onkeydown = e => {
+        const _key = window.event.keyCode
+        if (_key === 13) {
+          this.login()
+        }
+      }
+    },
     login () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
