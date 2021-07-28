@@ -2,7 +2,7 @@
   <div id="app">
     <router-view name="MainLogin" v-if="$route.path.indexOf('/login') === 0"></router-view>
     <el-container v-else>
-      <el-header style="height: 60px">
+      <el-header style="height: 50px">
         <tab-bar></tab-bar>
       </el-header>
       <el-main>
@@ -33,7 +33,8 @@ export default {
   }
 
   .el-main {
-    height: calc(100vh - 60px);
+    /* height: calc(100vh - 60px); */
+    height: 100%;
     background-color: #343434;
   }
 </style>
