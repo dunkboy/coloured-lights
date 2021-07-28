@@ -12,50 +12,20 @@
           </el-tabs>
         </el-col>
         <el-col :span="12">
-            <el-dropdown>
-              <el-button type="primary">
-                资源库<i class="el-icon-arrow-down el-icon--right"></i>
-              </el-button>
-              <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>黄金糕</el-dropdown-item>
-                  <el-dropdown-item>狮子头</el-dropdown-item>
-                  <el-dropdown-item>螺蛳粉</el-dropdown-item>
-                  <el-dropdown-item>双皮奶</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-                  <el-dropdown-item>蚵仔煎</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+          <el-dropdown>
+            <el-button type="primary">
+              资源库<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="item in dictResource" :key="item.id">{{item.name}}</el-dropdown-item>
+
+            </el-dropdown-menu>
+          </el-dropdown>
         </el-col>
       </el-row>
 
     </el-col>
-    <el-col :span="2" offset="11" class="item_profile">
+    <el-col :span="2" :offset="11" class="item_profile">
       <div class="profile"></div>
     </el-col>
   </el-row>
@@ -64,10 +34,27 @@
 <script>
 export default {
   components: {},
+  data () {
+    return {
+      dictResource: []
+    }
+  },
   methods: {
     handleClick (tab, event) {
-      console.log(tab, event)
+      this.$router.push({
+        path: '/home'
+      })
     }
+  },
+  created () {
+    this.$api.dict.get({
+      pageSize: 50,
+      current: 1,
+      code: '001'
+    }).then((data) => {
+      this.dictResource = data.data.pageData
+      console.log('dictResource', this.dictResource)
+    })
   }
 }
 </script>
@@ -128,21 +115,22 @@ export default {
     padding: 0;
   }
 
-.item_tab{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .item_tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .el-dropdown>>>.el-button {
-    font-size:22px;
-  }
-  .el-dropdown>>>.el-button--primary {
-    background-color:darkred;
-    border-color:darkred;
+    font-size: 22px;
   }
 
-.el-dropdown-menu {
+  .el-dropdown>>>.el-button--primary {
+    background-color: darkred;
+    border-color: darkred;
+  }
+
+  .el-dropdown-menu {
     position: absolute;
     width: 800px;
     height: 200px;
@@ -153,26 +141,25 @@ export default {
     margin-bottom: 5px;
     margin-left: 0px;
     margin-right: -400px;
-    background-color:transparent;
+    background-color: transparent;
     border: 1px solid #6a6a6a;
     border-radius: 4px;
     box-shadow: 0 2px 12px 0 rgba(107, 107, 107, 0.1);
-}
+  }
 
-.el-dropdown-menu li {
-   float: left;
-   color: white
-}
+  .el-dropdown-menu li {
+    float: left;
+    color: white
+  }
 
-.el-dropdown-menu li:hover {
-   color: black;
-   background-color: darkred;
-}
+  .el-dropdown-menu li:hover {
+    color: black;
+    background-color: darkred;
+  }
 
   .profile {
     width: 100%;
     height: 100%;
     background-color: #409EFF;
   }
-
 </style>

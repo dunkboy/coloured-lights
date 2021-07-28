@@ -11,6 +11,15 @@ const restful = {
       method: 'post',
       data: data
     })
+  },
+
+  // get
+  get (url, params) {
+    return request({
+      url: url,
+      method: 'get',
+      params: params
+    })
   }
   // 其他接口…………
 }
