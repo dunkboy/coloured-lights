@@ -44,9 +44,14 @@ export default {
         if (res.code !== 200) {
           return
         }
-        this.$store.state.token = res.data.token
-        this.$store.state.userinfo = res.data.userinfo
-        this.$router.replace({ path: '/home' })
+        this.$store.dispatch('setLoginRes', {
+          token: res.data.token,
+          userinfo: res.data.userinfo
+        })
+
+        this.$router.replace({
+          path: '/home'
+        })
       })
     },
     errHandle () {
@@ -67,6 +72,6 @@ export default {
     /* background-size: contain; */
     background-size: cover;
     background-repeat: no-repeat;
-    background-position:center;
+    background-position: center;
   }
 </style>

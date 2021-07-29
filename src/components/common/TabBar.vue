@@ -1,17 +1,17 @@
 <template>
   <el-row class="tabBar">
     <el-col :span="2" class="item_logo">
-      <img src="~assets/img/logo.jpeg" alt="加载失败" width="100px" height="80%" />
+      <img src="~assets/img/logo.jpeg" alt="加载失败" />
     </el-col>
-    <el-col :span="3" :offset="6">
+    <el-col :span="5" :offset="5">
       <el-row class="item_tab">
-        <el-col :span="12" :offset="4">
-          <el-tabs type="border-card" value="first" @tab-click="handleClick" style="width: 100px;">
+        <el-col :span="10">
+          <el-tabs type="border-card" value="first" @tab-click="handleClick">
             <el-tab-pane label="首页" name="first"></el-tab-pane>
             <!-- <el-tab-pane label="资源库" name="second"></el-tab-pane> -->
           </el-tabs>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="14">
           <el-dropdown>
             <el-button type="primary">
               资源库<i class="el-icon-arrow-down el-icon--right"></i>
@@ -25,7 +25,7 @@
       </el-row>
 
     </el-col>
-    <el-col :span="2" :offset="11" class="item_profile">
+    <el-col :span="2" :offset="9" class="item_profile">
       <div class="profile"></div>
     </el-col>
   </el-row>
@@ -52,8 +52,9 @@ export default {
       current: 1,
       code: '001'
     }).then((data) => {
-      this.dictResource = data.data.pageData
-      console.log('dictResource', this.dictResource)
+      if (data.data != null) {
+        this.dictResource = data.data.pageData
+      }
     })
   }
 }
@@ -75,6 +76,12 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .item_logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
   }
 
   .el-tabs {
@@ -100,11 +107,8 @@ export default {
   }
 
   .el-tabs>>>.el-tabs__item {
-    text-align: center;
-    width: 100px;
-    height: 100%;
-    height: 60px;
-    line-height: 60px;
+    height: 50px;
+    line-height: 50px;
     font-size: 22px;
     color: white;
     background-color: darkred;
@@ -115,6 +119,11 @@ export default {
     padding: 0;
   }
 
+  .el-tabs>>>.el-tabs__header {
+    background-color: darkred;
+    border-bottom: 0;
+  }
+
   .item_tab {
     display: flex;
     justify-content: center;
@@ -122,6 +131,7 @@ export default {
   }
 
   .el-dropdown>>>.el-button {
+    width: 100%;
     font-size: 22px;
   }
 
