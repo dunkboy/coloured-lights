@@ -29,7 +29,7 @@ export default {
   .el-header {
     width: 100%;
     padding: 0;
-    overflow: hidden
+    overflow: hidden;
   }
 
   .el-main {
@@ -37,4 +37,5 @@ export default {
     height: 100%;
     background-color: #343434;
   }
+
 </style>

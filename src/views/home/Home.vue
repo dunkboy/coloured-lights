@@ -29,11 +29,17 @@
       </el-col>
     </el-row>
 
-    <el-row :gutter="20" type="flex" justify="center" align="middle" class="page">
-      <el-col :span="6" v-for="item in resources" :key="item.id">
-        <h2>{{item.nickname}}</h2>
-        <image-light></image-light>
+    <el-row :gutter="30" type="flex" justify="start" align="middle" class="page">
+      <el-col :span="6" v-for="item in data.pageData" :key="item.id">
+        <image-light :light="item"></image-light>
       </el-col>
+    </el-row>
+
+    <el-row class="pageCpn">
+      <el-pagination background="" layout="total, sizes, prev, pager, next, jumper" :total="data.total"
+        :current-page="data.current" :page-size="data.pageSize" :page-sizes="[2, 4, 6, 8,10,12]"
+        @size-change="handleSizeChange" @current-change="handleCurrentChange" @prev-click="getImagePage" @snext-click="getImagePage">
+      </el-pagination>
     </el-row>
 
   </div>
@@ -49,10 +55,45 @@ export default {
   components: {
     ImageLight
   },
+  methods: {
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条`)
+      console.log(this.data.current)
+      this.$api.resource.get({
+        current: this.data.current,
+        pageSize: val
+      }).then(data => {
+        this.data = data.data
+      })
+    },
+    handleCurrentChange (val) {
+      console.log(this.data.pageSize)
+      console.log(`当前页: ${val}`)
+      this.$api.resource.get({
+        current: val,
+        pageSize: this.data.pageSize
+      }).then(data => {
+        this.data = data.data
+      })
+    },
+    getImagePage (val) {
+      this.$api.resource.get({
+        current: this.data.current,
+        pageSize: this.data.pageSize
+      }).then(data => {
+        this.data = data.data
+      })
+    }
+  },
   data () {
     return {
       keyword: '',
-      resources: []
+      data: {
+        current: 1,
+        pageSize: 2,
+        total: 0,
+        pageData: []
+      }
     }
   },
   created () {
@@ -61,12 +102,12 @@ export default {
       this.$store.commit(MUTATIONS_TYPE.SET_TOKEN, WindowOpr.getItem('token'))
       this.$store.dispatch('userinfoStateUpdate')
     }
-    this.$api.resource.get({
-      current: 1,
-      pageSize: 30
-    }).then(data => {
-      this.resources = data.data.pageData
-    })
+    // this.$api.resource.get({
+    //   current: this.data.current,
+    //   pageSize: this.data.pageSize
+    // }).then(data => {
+    //   this.data = data.data
+    // })
   }
 
 }
@@ -75,10 +116,6 @@ export default {
 <style scoped>
   .el-col {
     height: 100%;
-  }
-
-  #home {
-    height: 2000px;
   }
 
   .walking_lantern {
@@ -93,7 +130,6 @@ export default {
   .page {
     height: 100%;
     flex-wrap: wrap;
-    background-color: #409EFF;
   }
 
   .el-carousel>>>.el-carousel__container {
@@ -135,5 +171,32 @@ export default {
 
   .el-input>>>.el-input__inner:hover {
     border: 1px solid #8B0000;
+  }
+
+  .pageCpn {
+    margin-top: 20px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+
+  .el-pagination>>>.el-pager li:not(.disabled).active {
+    background-color: darkred;
+  }
+
+  .el-pagination>>>.el-pagination__total {
+    color: white;
+    font-size: 18px;
+  }
+
+  .el-pagination>>>.el-pagination__jump {
+    color: white;
+    font-size: 15px;
   }
 </style>
