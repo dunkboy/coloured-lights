@@ -26,8 +26,12 @@ body {
   color: var(--color-text);
   /* rem vw/vh */
   width: 100vw;
-  overflow-x: hidden !important;
+  /* overflow-x: hidden !important; */
   /* overflow-y: hidden !important; */
+}
+
+html,body,#app{
+	height: 100%;
 }
 
 a {

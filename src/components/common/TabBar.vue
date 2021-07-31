@@ -5,29 +5,31 @@
     </el-col>
     <el-col :span="5" :offset="5">
       <el-row class="item_tab">
-        <el-col :span="10">
-          <el-tabs type="border-card" value="first" @tab-click="handleClick">
-            <el-tab-pane label="首页" name="first"></el-tab-pane>
-            <!-- <el-tab-pane label="资源库" name="second"></el-tab-pane> -->
+        <el-col>
+          <el-tabs type="border-card" :value="currentRouter" @tab-click="handleClick">
+            <el-tab-pane label="首页" name="/home"></el-tab-pane>
+            <el-tab-pane label="我的作品" name="/profile"></el-tab-pane>
           </el-tabs>
         </el-col>
-        <el-col :span="14">
-          <el-dropdown>
-            <el-button type="primary">
-              资源库<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="item in dictResource" :key="item.id">{{item.name}}</el-dropdown-item>
-
-            </el-dropdown-menu>
-          </el-dropdown>
-        </el-col>
       </el-row>
+    </el-col>
+    <el-col :span="2" :offset="10" class="item_profile">
+      <div v-if="$store.state.token !== ''" class="profile">
+        <el-dropdown @command="handleCommand" trigger="click">
+          <span class="el-dropdown-link">
+            <i class="el-icon-user-solid"></i>{{$store.state.userinfo.nickname}}
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="1">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
 
+      <div v-else class="login">
+        <div class="topLogin" title="彩灯登录" @click="jumpToLogin">登录/注册</div>
+      </div>
     </el-col>
-    <el-col :span="2" :offset="9" class="item_profile">
-      <div class="profile"></div>
-    </el-col>
+
   </el-row>
 </template>
 
@@ -36,26 +38,54 @@ export default {
   components: {},
   data () {
     return {
-      dictResource: []
+      currentRouter: ''
     }
   },
   methods: {
     handleClick (tab, event) {
+      if (tab.name === '/profile') {
+        // 判断是否登录
+        if (this.$store.state.token === '') {
+          this.$message.warning('请先登录！')
+          return
+        }
+      }
       this.$router.push({
-        path: '/home'
+        path: tab.name
       })
+    },
+    jumpToLogin () {
+      this.$router.push({
+        path: '/login'
+      })
+    },
+    logout () {
+      this.$api.account.logout().then(data => {
+        if (data.code === 200) {
+          this.$store.dispatch('userinfoStateUpdate').then(code => {
+            if (code !== 200) {
+              this.$router.push({
+                path: '/home'
+              })
+            }
+          })
+        }
+      })
+    },
+    handleCommand (command) {
+      if (command === '0') {
+
+      }
+      if (command === '1') {
+        this.logout()
+      }
     }
   },
-  created () {
-    this.$api.dict.get({
-      pageSize: 50,
-      current: 1,
-      code: '001'
-    }).then((data) => {
-      if (data.data != null) {
-        this.dictResource = data.data.pageData
-      }
-    })
+  created () {},
+  watch: {
+    $route () {
+      this.currentRouter = this.$route.path
+    }
   }
 }
 </script>
@@ -130,46 +160,34 @@ export default {
     align-items: center;
   }
 
-  .el-dropdown>>>.el-button {
+  .login {
     width: 100%;
-    font-size: 22px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .el-dropdown>>>.el-button--primary {
-    background-color: darkred;
-    border-color: darkred;
-  }
-
-  .el-dropdown-menu {
-    position: absolute;
-    width: 800px;
-    height: 200px;
-    top: 0;
-    left: 0;
-    padding: 10px 0;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    margin-left: 0px;
-    margin-right: -400px;
-    background-color: transparent;
-    border: 1px solid #6a6a6a;
-    border-radius: 4px;
-    box-shadow: 0 2px 12px 0 rgba(107, 107, 107, 0.1);
-  }
-
-  .el-dropdown-menu li {
-    float: left;
-    color: white
-  }
-
-  .el-dropdown-menu li:hover {
-    color: black;
-    background-color: darkred;
+  .topLogin {
+    color: white;
+    cursor: pointer;
   }
 
   .profile {
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 100%;
-    background-color: #409EFF;
+    padding-left: 60px;
+  }
+
+  .el-dropdown-link {
+    color: white;
+    cursor: pointer;
+  }
+
+  .el-dropdown-menu li:hover {
+    color: white;
+    background-color: darkred;
   }
 </style>

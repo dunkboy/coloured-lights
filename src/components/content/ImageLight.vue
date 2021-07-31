@@ -1,7 +1,9 @@
 <template>
   <div class="imageLight">
     <img :src="prefix+light.ldUrl" alt="加载失败">
-    <span><h4 style="color: white;">作者：{{light.nickname}}</h4></span>
+    <span>
+      <h4 style="color: white;">作者：{{light.nickname}}</h4>
+    </span>
   </div>
 </template>
 <script>
@@ -9,8 +11,7 @@ import * as API_URL_CONSTANT from 'constant/api-url-constant'
 import model from '../../model/model.js'
 
 export default {
-  components: {
-  },
+  components: {},
   props: {
     light: {
       type: model.light
@@ -27,10 +28,11 @@ export default {
 
 <style scoped>
   .imageLight {
-    display: flex;
+    text-align: center;
+    /* display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: center; */
     height: 320px;
     border: 1px solid #dcdfe6;
     margin-top: 40px;
@@ -39,7 +41,9 @@ export default {
   .imageLight img {
     height: 280px;
     max-width: 100%;
+    width: 100%;
     object-fit: cover;
+    margin-bottom: 10px;
   }
 
 </style>

@@ -23,23 +23,8 @@ s<template>
       </el-col>
     </el-row>
 
-    <el-row type="flex" justify="center" align="middle" class="walking_lantern">
-      <el-col :span="20">
-        <el-carousel indicator-position="outside">
-          <el-carousel-item>
-            <img src="~assets/img/walk/a.jpg" alt="加载失败">
-          </el-carousel-item>
-          <el-carousel-item>
-            <img src="~assets/img/walk/b.jpg" alt="加载失败">
-          </el-carousel-item>
-          <el-carousel-item>
-            <img src="~assets/img/walk/c.jpg" alt="加载失败">
-          </el-carousel-item>
-        </el-carousel>
-      </el-col>
-      <el-col :span="4" class="wechat">
-        <img src="~assets/img/walk/a.jpg" alt="加载失败">
-      </el-col>
+    <el-row>
+      <el-button class="upload">上传作品</el-button>
     </el-row>
 
     <el-row :gutter="30" type="flex" justify="start" align="middle" class="page">
@@ -67,7 +52,7 @@ export default {
   },
   methods: {
     handleSizeChange (val) {
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: this.data.current,
         pageSize: val,
         keyword: this.keyword,
@@ -77,7 +62,7 @@ export default {
       })
     },
     handleCurrentChange (val) {
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: val,
         pageSize: this.data.pageSize,
         keyword: this.keyword,
@@ -87,7 +72,7 @@ export default {
       })
     },
     pre (cpage) {
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: cpage,
         pageSize: this.data.pageSize,
         keyword: this.keyword,
@@ -97,7 +82,7 @@ export default {
       })
     },
     next (cpage) {
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: cpage,
         pageSize: this.data.pageSize,
         keyword: this.keyword,
@@ -107,7 +92,7 @@ export default {
       })
     },
     search () {
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: this.data.current,
         pageSize: this.data.pageSize,
         keyword: this.keyword,
@@ -124,7 +109,7 @@ export default {
         this.currentChooseResourcee = command.name
       }
       this.type = command.type
-      this.$api.resource.get({
+      this.$api.resource.profile({
         current: this.data.current,
         pageSize: this.data.pageSize,
         type: this.type,
@@ -159,7 +144,7 @@ export default {
   created () {
     this.keyupSubmit()
 
-    this.$api.resource.get({
+    this.$api.resource.profile({
       current: this.data.current,
       pageSize: this.data.pageSize
     }).then(data => {
@@ -185,11 +170,6 @@ export default {
     height: 100%;
   }
 
-  .walking_lantern {
-    margin-top: 15px;
-    height: 450px;
-  }
-
   .search {
     height: 50px;
   }
@@ -197,28 +177,6 @@ export default {
   .page {
     height: 100%;
     flex-wrap: wrap;
-  }
-
-  .el-carousel>>>.el-carousel__container {
-    height: 420px;
-  }
-
-  .el-carousel__item img {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
-  }
-
-  .wechat {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .wechat img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
   }
 
   .searchButton {
@@ -311,5 +269,12 @@ export default {
 
   .el-dropdown-col {
     margin-right: 37px;
+  }
+
+  .upload {
+    background-color: darkred;
+    color: white;
+    border-color: darkred;
+    margin-left: 20px;
   }
 </style>

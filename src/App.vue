@@ -14,11 +14,19 @@
 
 <script>
 import TabBar from 'components/common/TabBar.vue'
+import WindowOpr from './utils/window.js'
+import * as MUTATIONS_TYPE from './store/mutations_type.js'
 
 export default {
   name: 'app',
   components: {
     TabBar
+  },
+  created () {
+    // 在页面加载时读取sessionStorage里的状态信息
+    this.$store.commit(MUTATIONS_TYPE.SET_TOKEN, WindowOpr.getItem('token') === null ? '' : WindowOpr.getItem(
+      'token'))
+    this.$store.dispatch('userinfoStateUpdate')
   }
 }
 </script>
@@ -38,4 +46,7 @@ export default {
     background-color: #343434;
   }
 
+  .el-container {
+    height: 100%;
+  }
 </style>

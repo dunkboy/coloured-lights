@@ -112,5 +112,4 @@ export default {
     text-align: center;
   }
 
-  #app11 {}
 </style>

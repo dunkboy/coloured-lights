@@ -8,3 +8,7 @@ export const DICT_URL = '/dict'
 export const RESOURCE_URL = '/resource'
 // 访问图片接口
 export const ACCESS_URL = '/media/image?id='
+// 退出
+export const LOGOUT_URL = '/account/logout'
+// 分页获取我的作品
+export const RESOURCE_PROFILE_URL = '/resource/profile'

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 const MainLogin = () => import('../views/login/MainLogin')
 const Home = () => import('../views/home/Home')
+const Profile = () => import('../views/profile/Profile')
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,10 @@ const routes = [{
 {
   path: '/home',
   component: Home
+},
+{
+  path: '/profile',
+  component: Profile
 },
 {
   path: '/login',
