@@ -15,7 +15,7 @@ s<template>
         </el-dropdown>
       </el-col>
       <el-col :span="9">
-        <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="请输入内容" clearable class="searchInput">
+        <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="请输入标签关键字" clearable class="searchInput">
         </el-input>
       </el-col>
       <el-col :span="2">

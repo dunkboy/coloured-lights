@@ -1,5 +1,5 @@
 s<template>
-  <div id="home">
+  <div id="profile">
     <el-row :gutter="20" type="flex" justify="center" class="search">
       <el-col :span="2" class="el-dropdown-col">
         <el-dropdown @command="handleCommand">
@@ -15,7 +15,7 @@ s<template>
         </el-dropdown>
       </el-col>
       <el-col :span="9">
-        <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="请输入内容" clearable class="searchInput">
+        <el-input v-model="keyword" prefix-icon="el-icon-search" placeholder="请输入标签关键字" clearable class="searchInput">
         </el-input>
       </el-col>
       <el-col :span="2">
@@ -24,12 +24,13 @@ s<template>
     </el-row>
 
     <el-row>
-      <el-button class="upload">上传作品</el-button>
+      <el-button class="upload" @click="upload">上传作品</el-button>
+      <el-button class="upload" @click="deleteResource">删除</el-button>
     </el-row>
 
     <el-row :gutter="30" type="flex" justify="start" align="middle" class="page">
       <el-col :span="6" v-for="item in data.pageData" :key="item.id">
-        <image-light :light="item"></image-light>
+        <image-light :light="item" @choos-light="chooseLight" @remove-light="removeLight" :lightIds="lightIds" :borderColor="borderColor"></image-light>
       </el-col>
     </el-row>
 
@@ -40,15 +41,20 @@ s<template>
       </el-pagination>
     </el-row>
 
+      <resource-upload :dialogFormVisibleUpload="dialogFormVisibleUpload" :resources="dictResource" @dialogClose="dialogClose" @cancel="cancel">
+      </resource-upload>
+
   </div>
 </template>
 
 <script>
 import ImageLight from 'components/content/ImageLight.vue'
+import ResourceUpload from './ResourceUpload.vue'
+import ArrayUtitls from '../../utils/array.js'
 
 export default {
   components: {
-    ImageLight
+    ImageLight, ResourceUpload
   },
   methods: {
     handleSizeChange (val) {
@@ -59,6 +65,7 @@ export default {
         type: this.type
       }).then(data => {
         this.data = data.data
+        this.lightIds = []
       })
     },
     handleCurrentChange (val) {
@@ -69,6 +76,7 @@ export default {
         type: this.type
       }).then(data => {
         this.data = data.data
+        this.lightIds = []
       })
     },
     pre (cpage) {
@@ -79,6 +87,7 @@ export default {
         type: this.type
       }).then(data => {
         this.data = data.data
+        this.lightIds = []
       })
     },
     next (cpage) {
@@ -89,19 +98,12 @@ export default {
         type: this.type
       }).then(data => {
         this.data = data.data
+        this.lightIds = []
       })
     },
     search () {
-      this.$api.resource.profile({
-        current: this.data.current,
-        pageSize: this.data.pageSize,
-        keyword: this.keyword,
-        type: this.type
-      }).then(data => {
-        this.data = data.data
-      })
+      this.getResourcePage()
     },
-
     handleCommand (command) {
       if ((typeof (command) === 'string')) {
         this.currentChooseResourcee = '资源库'
@@ -109,14 +111,7 @@ export default {
         this.currentChooseResourcee = command.name
       }
       this.type = command.type
-      this.$api.resource.profile({
-        current: this.data.current,
-        pageSize: this.data.pageSize,
-        type: this.type,
-        keyword: this.keyword
-      }).then(data => {
-        this.data = data.data
-      })
+      this.getResourcePage()
     },
     keyupSubmit () {
       document.onkeydown = e => {
@@ -125,11 +120,68 @@ export default {
           this.search()
         }
       }
+    },
+    upload () {
+      this.dialogFormVisibleUpload = true
+    },
+    dialogClose () {
+      this.refresh()
+      this.dialogFormVisibleUpload = false
+    },
+    cancel () {
+      this.dialogFormVisibleUpload = false
+    },
+    refresh () {
+      this.getResourcePage()
+    },
+    getResourcePage () {
+      this.$api.resource.profile({
+        current: this.data.current,
+        pageSize: this.data.pageSize,
+        type: this.type,
+        keyword: this.keyword
+      }).then(data => {
+        this.data = data.data
+        this.lightIds = []
+      })
+    },
+    chooseLight (id) {
+      this.lightIds.push(id)
+    },
+    removeLight (id) {
+      ArrayUtitls.removeByValue(this.lightIds, id)
+    },
+    deleteResource () {
+      if (this.lightIds.length === 0) {
+        this.$message.warning('请先选择要删除的资源！')
+        return
+      }
+      this.$confirm('此操作将永久删除资源, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        for (const id of this.lightIds) {
+          this.$api.resource.delete(id).then(res => {
+            if (res.code === 200) {
+              this.refresh()
+            }
+          })
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     }
   },
   data () {
     return {
+      borderColor: '#dcdfe6',
+      dialogFormVisibleUpload: false,
       currentChooseResourcee: '资源库',
+      lightIds: [],
       dictResource: [],
       keyword: '',
       type: null,
@@ -143,13 +195,7 @@ export default {
   },
   created () {
     this.keyupSubmit()
-
-    this.$api.resource.profile({
-      current: this.data.current,
-      pageSize: this.data.pageSize
-    }).then(data => {
-      this.data = data.data
-    })
+    this.getResourcePage()
 
     this.$api.dict.get({
       pageSize: 50,

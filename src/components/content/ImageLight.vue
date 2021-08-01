@@ -1,9 +1,11 @@
 <template>
-  <div class="imageLight">
+  <div class="imageLight" :style="{borderColor: borderColor}" @click="chooseLight">
     <img :src="prefix+light.ldUrl" alt="加载失败">
-    <span>
-      <h4 style="color: white;">作者：{{light.nickname}}</h4>
-    </span>
+    <div class="text-display">
+        <span>{{light.type}}</span>
+        <span>{{light.name}}</span>
+        <span>作者：{{light.nickname}}</span>
+    </div>
   </div>
 </template>
 <script>
@@ -15,12 +17,28 @@ export default {
   props: {
     light: {
       type: model.light
-
+    },
+    lightIds: {
+      type: Array
+    }
+  },
+  methods: {
+    chooseLight () {
+      const id = this.light.id
+      if (this.lightIds.includes(id)) {
+        this.$emit('remove-light', this.light.id)
+        this.borderColor = '#dcdfe6'
+      } else {
+        this.lightIds.push(id)
+        this.$emit('choose-light', this.light.id)
+        this.borderColor = 'darkred'
+      }
     }
   },
   data () {
     return {
-      prefix: process.env.VUE_APP_BASE_API + API_URL_CONSTANT.ACCESS_URL
+      prefix: process.env.VUE_APP_BASE_API + API_URL_CONSTANT.ACCESS_URL,
+      borderColor: '#dcdfe6'
     }
   }
 }
@@ -28,22 +46,27 @@ export default {
 
 <style scoped>
   .imageLight {
-    text-align: center;
-    /* display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center; */
     height: 320px;
-    border: 1px solid #dcdfe6;
+    border: 1px solid;
     margin-top: 40px;
   }
 
+  .imageLight span {
+    color: white
+  }
   .imageLight img {
     height: 280px;
     max-width: 100%;
     width: 100%;
     object-fit: cover;
-    margin-bottom: 10px;
+  }
+  .text-display {
+    height: 34px;
+    width: 100%;
+   display: flex;
+    align-items: center;
+    flex-direction:row;
+    justify-content: space-around;
   }
 
 </style>

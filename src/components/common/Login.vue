@@ -6,12 +6,12 @@
     <div class="loginForm">
       <el-form status-icon :model="loginForm" :rules="loginRules" ref="loginForm">
         <el-form-item prop="loginName">
-          <el-input v-model="loginForm.loginName" placeholder="请输入用户名">
+          <el-input v-model="loginForm.loginName" placeholder="请输入用户名" clearable>
             <i slot="prefix" class="el-icon-user"></i>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input type="password" v-model="loginForm.password" placeholder="请输入密码">
+          <el-input type="password" v-model="loginForm.password" placeholder="请输入密码" clearable>
             <i slot="prefix" class="el-icon-lock"></i>
           </el-input>
         </el-form-item>
