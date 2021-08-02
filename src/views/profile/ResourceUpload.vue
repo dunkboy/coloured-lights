@@ -15,14 +15,16 @@ s<template>
         </el-form-item>
 
         <el-form-item label="输入标签">
-          <el-input v-model="form.labelTemp" autocomplete="off" placeholder="输入标签后请点击右边⊕,支持多个" style="width: 90%;" clearable>
+          <el-input v-model="form.labelTemp" autocomplete="off" placeholder="输入标签后请点击右边⊕,支持多个" style="width: 90%;"
+            clearable>
           </el-input>
           <el-button icon="el-icon-circle-plus-outline" circle @click="doLabelTemp"></el-button>
         </el-form-item>
 
         <el-form-item prop="labels" label="已添加标签">
           <el-row :gutter="10" type="flex" justify="start" align="middle" class="addLabel">
-            <span v-for="item in currentLabels" :key="item" style="border: 1px solid #409EFF;margin-left: 10px;border-radius: 12px; margin-top: 5px;text-align: center;">
+            <span v-for="item in currentLabels" :key="item"
+              style="border: 1px solid #409EFF;margin-left: 10px;border-radius: 12px; margin-top: 5px;text-align: center;">
               {{item}}
               <el-button icon="el-icon-circle-close" circle @click="doLabelTemp2(item)"></el-button>
             </span>
@@ -30,7 +32,8 @@ s<template>
         </el-form-item>
 
         <el-form-item prop="file" label="上传资源" ref="upload">
-          <el-upload class="upload-demo" action="111" :on-change="handleChange" :auto-upload="false" :file-list="fileList">
+          <el-upload class="upload-demo" action="111" :on-change="handleChange" :auto-upload="false"
+            :file-list="fileList">
             <el-button slot="trigger" size="small" type="primary">选取资源文件</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过10MB</div>
           </el-upload>
@@ -142,15 +145,26 @@ export default {
     addResource () {
       this.$refs.form.validate((valid) => {
         if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: '资源上传中',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.7)'
+          })
+
           const formData = new FormData()
           formData.append('name', this.form.name)
           formData.append('type', this.form.type)
           formData.append('labels', this.form.labels)
           formData.append('file', this.form.file)
           this.$api.resource.upload(formData).then(res => {
+            loading.close()
             if (res.code === 200) {
               this.cancel()
             }
+          }).catch(err => {
+            this.$message.error(err)
+            loading.close()
           })
         } else {
           this.$message.error('请重新输入！')
@@ -177,13 +191,12 @@ export default {
 </script>
 
 <style scoped>
-
-  .el-dialog__wrapper>>>.el-dialog{
+  .el-dialog__wrapper>>>.el-dialog {
     width: 30%;
 
   }
 
-/* .el-dialog__wrapper>>>.el-form-item__content{
+  /* .el-dialog__wrapper>>>.el-form-item__content{
   display: inline-block;
 } */
 
@@ -193,14 +206,14 @@ export default {
     align-items: center;
   }
 
-.el-form-item{
-  width: 400px;
-}
+  .el-form-item {
+    width: 400px;
+  }
 
   .el-button.is-circle {
     border-radius: 50%;
-        padding: 0px;
-        margin-left: 3px;
+    padding: 0px;
+    margin-left: 3px;
   }
 
   .el-upload__tip {
@@ -210,5 +223,4 @@ export default {
   .addLabel {
     flex-wrap: wrap;
   }
-
 </style>
