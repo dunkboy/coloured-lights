@@ -1,7 +1,7 @@
 <template>
   <el-row class="tabBar">
-    <el-col :span="2" class="item_logo">
-      <img src="~assets/img/logo.jpeg" alt="加载失败" />
+    <el-col :span="2" :offset="1" class="item_logo">
+      <img src="~assets/img/logo.png" alt="加载失败" />
     </el-col>
     <el-col :span="5" :offset="5">
       <el-row class="item_tab">
@@ -13,7 +13,7 @@
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="2" :offset="10" class="item_profile">
+    <el-col :span="2" :offset="9" class="item_profile">
       <div v-if="$store.state.token !== ''" class="profile">
         <el-dropdown @command="handleCommand" trigger="click">
           <span class="el-dropdown-link">
@@ -109,8 +109,8 @@ export default {
   }
 
   .item_logo img {
-    width: 40px;
-    height: 40px;
+    width: 110px;
+    height: 50px;
     object-fit: cover;
   }
 

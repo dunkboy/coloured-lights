@@ -38,7 +38,8 @@ s<template>
         </el-carousel>
       </el-col>
       <el-col :span="4" class="wechat">
-        <img src="~assets/img/walk/a.jpg" alt="加载失败">
+        <img src="~assets/img/wechat2weima.jpg" alt="加载失败">
+        <span style="color: white;margin-top: 50px;font-size: 20px;">扫码获取高清资源图</span>
       </el-col>
     </el-row>
 
@@ -213,6 +214,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 
   .wechat img {
