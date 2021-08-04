@@ -1,6 +1,6 @@
 <template>
   <div class="imageLight" :style="{borderColor: borderColor}">
-    <img :src="prefix+light.ldUrl" alt="加载失败">
+    <img :src="prefix+light.thumbnailUrl" alt="加载失败">
     <div class="text-display">
       <span>{{light.type}}</span>
       <span>{{light.name}}</span>

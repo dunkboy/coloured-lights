@@ -8,7 +8,7 @@ export function request (config) {
   // 1.创建axios的实例
   const instance = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
-    timeout: 25000
+    timeout: 60000
   })
 
   // 2.axios的拦截器
