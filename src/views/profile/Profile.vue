@@ -25,12 +25,12 @@ s<template>
 
     <el-row>
       <el-button class="upload" @click="upload">上传作品</el-button>
-      <el-button class="upload" @click="deleteResource">删除</el-button>
+      <!-- <el-button class="upload" @click="deleteResource">删除</el-button> -->
     </el-row>
 
     <el-row :gutter="30" type="flex" justify="start" align="middle" class="page">
       <el-col :span="6" v-for="item in data.pageData" :key="item.id">
-        <image-light :light="item" @choos-light="chooseLight" @remove-light="removeLight" :lightIds="lightIds" :borderColor="borderColor"></image-light>
+        <image-light :light="item" @delete-resource="deleteResource()" @choose-light="chooseLight" @remove-light="removeLight" :lightIds="lightIds" :borderColor="borderColor"></image-light>
       </el-col>
     </el-row>
 
@@ -146,12 +146,15 @@ export default {
       })
     },
     chooseLight (id) {
+      console.log('chooseLight')
       this.lightIds.push(id)
     },
     removeLight (id) {
+      console.log('removeLight')
       ArrayUtitls.removeByValue(this.lightIds, id)
     },
     deleteResource () {
+      const id = this.lightIds[0]
       if (this.lightIds.length === 0) {
         this.$message.warning('请先选择要删除的资源！')
         return
@@ -161,13 +164,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        for (const id of this.lightIds) {
-          this.$api.resource.delete(id).then(res => {
-            if (res.code === 200) {
-              this.refresh()
-            }
-          })
-        }
+        this.$api.resource.delete(id).then(res => {
+          if (res.code === 200) {
+            this.refresh()
+          }
+        })
+        // for (const id of this.lightIds) {
+        //   this.$api.resource.delete(id).then(res => {
+        //     if (res.code === 200) {
+        //       this.refresh()
+        //     }
+        //   })
+        // }
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -196,6 +204,7 @@ export default {
   created () {
     this.keyupSubmit()
     this.getResourcePage()
+    this.lightIds = []
 
     this.$api.dict.get({
       pageSize: 50,

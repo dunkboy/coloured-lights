@@ -1,10 +1,20 @@
 <template>
-  <div class="imageLight" :style="{borderColor: borderColor}" @click="chooseLight">
+  <div class="imageLight" :style="{borderColor: borderColor}">
     <img :src="prefix+light.ldUrl" alt="加载失败">
     <div class="text-display">
-        <span>{{light.type}}</span>
-        <span>{{light.name}}</span>
-        <span>作者：{{light.nickname}}</span>
+      <span>{{light.type}}</span>
+      <span>{{light.name}}</span>
+      <span>作者：{{light.nickname}}</span>
+    </div>
+    <div class="button-display">
+      <el-row type="flex" align="middle" justify="space-around">
+        <el-col :span="2">
+          <el-button type="text" style="height: 34px; color: white;" class="el-icon-view"></el-button>
+        </el-col>
+        <el-col :span="2" v-if="$route.path!='/home'">
+          <el-button type="text" style="height: 34px;color: white;" @click="del()">删除</el-button>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -25,14 +35,20 @@ export default {
   methods: {
     chooseLight () {
       const id = this.light.id
+      console.log(this.lightIds.length)
       if (this.lightIds.includes(id)) {
         this.$emit('remove-light', this.light.id)
         this.borderColor = '#dcdfe6'
       } else {
-        this.lightIds.push(id)
         this.$emit('choose-light', this.light.id)
         this.borderColor = 'darkred'
       }
+      console.log(this.lightIds.length)
+    },
+    del () {
+      this.$emit('choose-light', this.light.id)
+      this.$emit('delete-resource')
+      this.$emit('remove-light', this.light.id)
     }
   },
   data () {
@@ -54,19 +70,24 @@ export default {
   .imageLight span {
     color: white
   }
+
   .imageLight img {
-    height: 280px;
+    height: 240px;
     max-width: 100%;
     width: 100%;
     object-fit: cover;
   }
+
   .text-display {
     height: 34px;
     width: 100%;
-   display: flex;
+    display: flex;
     align-items: center;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: space-around;
   }
 
+  .button-display {
+    height: 40px;
+  }
 </style>
