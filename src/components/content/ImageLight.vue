@@ -9,13 +9,22 @@
     <div class="button-display">
       <el-row type="flex" align="middle" justify="space-around">
         <el-col :span="2">
-          <el-button type="text" style="height: 34px; color: white;" class="el-icon-view"></el-button>
+          <el-button type="text" style="height: 34px; color: white;" class="el-icon-view" @click="displayLdurl()">
+          </el-button>
         </el-col>
         <el-col :span="2" v-if="$route.path!='/home'">
           <el-button type="text" style="height: 34px;color: white;" @click="del()">删除</el-button>
         </el-col>
       </el-row>
     </div>
+
+    <el-dialog center :title="light.name" :visible="dialogVisibleLdimg" @close="dialogLdimgClose"
+      :close-on-click-modal="false">
+      <div class="ldimg">
+        <img :src="prefix+light.ldUrl" alt="加载失败" :style="{width: ldwidth, heigth: ldheigth}">
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -49,12 +58,21 @@ export default {
       this.$emit('choose-light', this.light.id)
       this.$emit('delete-resource')
       this.$emit('remove-light', this.light.id)
+    },
+    displayLdurl () {
+      this.dialogVisibleLdimg = true
+    },
+    dialogLdimgClose () {
+      this.dialogVisibleLdimg = false
     }
   },
   data () {
     return {
       prefix: process.env.VUE_APP_BASE_API + API_URL_CONSTANT.ACCESS_URL,
-      borderColor: '#dcdfe6'
+      borderColor: '#dcdfe6',
+      ldwidth: '800PX',
+      ldheigth: '600PX',
+      dialogVisibleLdimg: false
     }
   }
 }
@@ -89,5 +107,10 @@ export default {
 
   .button-display {
     height: 40px;
+  }
+
+  .ldimg {
+    width: 900px;
+    height: 600px;
   }
 </style>
