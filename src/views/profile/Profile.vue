@@ -1,4 +1,4 @@
-s<template>
+<template>
   <div id="profile">
     <el-row :gutter="20" type="flex" justify="center" class="search">
       <el-col :span="2" class="el-dropdown-col">
@@ -30,7 +30,8 @@ s<template>
 
     <el-row :gutter="30" type="flex" justify="start" align="middle" class="page">
       <el-col :span="6" v-for="item in data.pageData" :key="item.id">
-        <image-light :light="item" @delete-resource="deleteResource()" @choose-light="chooseLight" @remove-light="removeLight" :lightIds="lightIds" :borderColor="borderColor"></image-light>
+        <image-light :light="item" @delete-resource="deleteResource()" @choose-light="chooseLight"
+          @remove-light="removeLight" :lightIds="lightIds" :borderColor="borderColor"></image-light>
       </el-col>
     </el-row>
 
@@ -41,8 +42,9 @@ s<template>
       </el-pagination>
     </el-row>
 
-      <resource-upload :dialogFormVisibleUpload="dialogFormVisibleUpload" :resources="dictResource" @dialogClose="dialogClose" @cancel="cancel">
-      </resource-upload>
+    <resource-upload :dialogFormVisibleUpload="dialogFormVisibleUpload" :resources="dictResource"
+      @dialogClose="dialogClose" @cancel="cancel">
+    </resource-upload>
 
   </div>
 </template>
@@ -54,7 +56,8 @@ import ArrayUtitls from '../../utils/array.js'
 
 export default {
   components: {
-    ImageLight, ResourceUpload
+    ImageLight,
+    ResourceUpload
   },
   methods: {
     handleSizeChange (val) {
@@ -141,8 +144,13 @@ export default {
         type: this.type,
         keyword: this.keyword
       }).then(data => {
-        this.data = data.data
+        if (data.data != null) {
+          this.data = data.data
+        }
         this.lightIds = []
+        if (data.code === 1001) {
+          this.$router.push('/home')
+        }
       })
     },
     chooseLight (id) {

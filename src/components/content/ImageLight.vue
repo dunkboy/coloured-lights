@@ -1,6 +1,6 @@
-<template>
+s<template>
   <div class="imageLight" :style="{borderColor: borderColor}">
-    <img :src="prefix+light.thumbnailUrl" alt="加载失败">
+    <img :src="prefix+light.thumbnailUrl" alt="加载失败" class="thumbnail">
     <div class="text-display">
       <span>{{light.type}}</span>
       <span>{{light.name}}</span>
@@ -21,7 +21,7 @@
     <el-dialog center :title="light.name" :visible="dialogVisibleLdimg" @close="dialogLdimgClose"
       :close-on-click-modal="false">
       <div class="ldimg">
-        <img :src="prefix+light.ldUrl" alt="加载失败" :style="{width: ldwidth, heigth: ldheigth}">
+        <img :src="prefix+light.ldUrl" alt="加载失败" :style="{width: truewidth, height: trueheight}">
       </div>
     </el-dialog>
 
@@ -44,7 +44,6 @@ export default {
   methods: {
     chooseLight () {
       const id = this.light.id
-      console.log(this.lightIds.length)
       if (this.lightIds.includes(id)) {
         this.$emit('remove-light', this.light.id)
         this.borderColor = '#dcdfe6'
@@ -60,7 +59,26 @@ export default {
       this.$emit('remove-light', this.light.id)
     },
     displayLdurl () {
+      this.preload()
+    },
+    preload: async function () {
+      await this.loadimg().then(res => {
+        this.truewidth = res.width + 'px'
+        this.trueheight = res.height + 'px'
+      })
       this.dialogVisibleLdimg = true
+    },
+    loadimg: function () {
+      return new Promise(resolve => {
+        const img = new Image()
+        img.src = this.prefix + this.light.ldUrl
+        img.onload = function () {
+          resolve({
+            width: img.width,
+            height: img.height
+          })
+        }
+      })
     },
     dialogLdimgClose () {
       this.dialogVisibleLdimg = false
@@ -70,8 +88,8 @@ export default {
     return {
       prefix: process.env.VUE_APP_BASE_API + API_URL_CONSTANT.ACCESS_URL,
       borderColor: '#dcdfe6',
-      ldwidth: '800PX',
-      ldheigth: '600PX',
+      truewidth: '800px',
+      trueheight: '600px',
       dialogVisibleLdimg: false
     }
   }
@@ -89,7 +107,7 @@ export default {
     color: white
   }
 
-  .imageLight img {
+  .thumbnail {
     height: 240px;
     max-width: 100%;
     width: 100%;
@@ -109,8 +127,15 @@ export default {
     height: 40px;
   }
 
+  .el-dialog__wrapper>>>.el-dialog {
+    width: 65%;
+  }
+
   .ldimg {
-    width: 900px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     height: 600px;
   }
 </style>
