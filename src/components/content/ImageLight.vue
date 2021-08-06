@@ -12,16 +12,20 @@ s<template>
           <el-button type="text" style="height: 34px; color: white;" class="el-icon-view" @click="displayLdurl()">
           </el-button>
         </el-col>
-        <el-col :span="2" v-if="$route.path!='/home'">
+        <el-col :span="2" v-if="$route.path!=='/home'">
           <el-button type="text" style="height: 34px;color: white;" @click="del()">删除</el-button>
         </el-col>
       </el-row>
     </div>
 
-    <el-dialog center :title="light.name" :visible="dialogVisibleLdimg" @close="dialogLdimgClose"
+    <el-dialog ref="tk" center :title="light.name" :visible="dialogVisibleLdimg" @close="dialogLdimgClose"
       :close-on-click-modal="false">
       <div class="ldimg">
         <img :src="prefix+light.ldUrl" alt="加载失败" :style="{width: truewidth, height: trueheight}">
+      </div>
+      <div v-if="($store.state.token!=='' && light.hdUrl!==null) || light.type==='实拍图' " slot="footer"
+        class="dialog-footer">
+        <a :href="prefix+light.hdUrl" target="_blank" style="color: darkred;">高清下载</a>
       </div>
     </el-dialog>
 
@@ -65,6 +69,8 @@ export default {
       await this.loadimg().then(res => {
         this.truewidth = res.width + 'px'
         this.trueheight = res.height + 'px'
+        this.$refs.tk.$el.firstChild.style.width = (res.width + 100) + 'px'
+        // this.$refs.tk.$el.firstChild.style.height = (res.height + 50) + 'px'
       })
       this.dialogVisibleLdimg = true
     },
@@ -127,15 +133,15 @@ export default {
     height: 40px;
   }
 
-  .el-dialog__wrapper>>>.el-dialog {
+  /*  .el-dialog__wrapper>>>.el-dialog {
     width: 65%;
-  }
+  } */
 
   .ldimg {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 600px;
+    height: 100%;
   }
 </style>
