@@ -24,7 +24,7 @@ s<template>
     </el-row>
 
     <el-row type="flex" justify="center" align="middle" class="walking_lantern">
-      <el-col :span="20">
+      <el-col :span="16" :offset="1">
         <el-carousel indicator-position="outside">
           <el-carousel-item>
             <img src="~assets/img/walk/a.jpg" alt="加载失败">
