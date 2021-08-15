@@ -26,7 +26,7 @@
       </div>
 
       <div v-else class="login">
-        <div class="topLogin" title="彩灯登录" @click="jumpToLogin">登录/注册</div>
+        <div class="topLogin" title="彩灯登录" @click="jumpToLogin">登录</div>
       </div>
     </el-col>
 

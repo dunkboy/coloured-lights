@@ -29,17 +29,17 @@ s<template>
           <el-carousel-item>
             <img src="~assets/img/walk/a.jpg" alt="加载失败">
           </el-carousel-item>
-          <el-carousel-item>
+         <!-- <el-carousel-item>
             <img src="~assets/img/walk/b.jpg" alt="加载失败">
           </el-carousel-item>
           <el-carousel-item>
             <img src="~assets/img/walk/c.jpg" alt="加载失败">
-          </el-carousel-item>
+          </el-carousel-item> -->
         </el-carousel>
       </el-col>
       <el-col :span="4" class="wechat">
         <img src="~assets/img/wechat2weima.jpg" alt="加载失败">
-        <span style="color: white;margin-top: 50px;font-size: 20px;">扫码获取高清资源图</span>
+        <span style="color: white;margin-top: 40px;font-size: 20px;">咨询合作</span>
       </el-col>
     </el-row>
 
