@@ -1,4 +1,4 @@
-# coloured-lights
+# coloured-lights 彩灯
 
 ## Project setup
 ```
