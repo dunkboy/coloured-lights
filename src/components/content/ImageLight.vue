@@ -4,7 +4,7 @@ s<template>
     <div class="text-display">
       <span>{{light.type}}</span>
       <span>{{light.name}}</span>
-      <span>作者：{{light.nickname}}</span>
+      <!-- <span>作者：{{light.nickname}}</span> -->
     </div>
     <div class="button-display">
       <el-row type="flex" align="middle" justify="space-around">
