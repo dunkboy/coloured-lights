@@ -125,6 +125,7 @@ export default {
         this.currentChooseResourcee = command.name
       }
       this.type = command.type
+      this.keyword = ''
       this.$api.resource.get({
         current: this.data.current,
         pageSize: this.data.pageSize,
